@@ -315,6 +315,9 @@ class InnerBrowser extends Module implements Web, PageSourceSaver, ElementLocato
 
     public function _savePageSource($filename)
     {
+        while (file_exists($filename)) {
+            $filename = preg_replace('/(.+?)(-[0-9a-z]{13}|)(\.[a-z]+)$/', '$1'.uniqid('-').'$3', $filename);
+        }
         file_put_contents($filename, $this->_getResponseContent());
     }
 
